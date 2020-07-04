@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
-import Camera from "@material-ui/icons/Camera";
-import Palette from "@material-ui/icons/Palette";
-import Favorite from "@material-ui/icons/Favorite";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from "@material-ui/core/Tooltip";
+import WorkIcon from "@material-ui/icons/Work";
+import ForumIcon from "@material-ui/icons/Forum";
+import SchoolIcon from "@material-ui/icons/School";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
 // core components
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
@@ -97,7 +98,7 @@ export default function ProfilePage(props) {
                   tabs={[
                     {
                       tabButton: "Interns",
-                      tabIcon: Camera,
+                      tabIcon: WorkIcon,
                       tabContent: (
                         <GridContainer justify="center">
                           <GridItem xs={12} sm={12} md={4}>
@@ -129,7 +130,7 @@ export default function ProfilePage(props) {
                     },
                     {
                       tabButton: "Forums",
-                      tabIcon: Palette,
+                      tabIcon: ForumIcon,
                       tabContent: (
                         <GridContainer justify="center">
                           <GridItem xs={12} sm={12} md={4}>
@@ -166,7 +167,44 @@ export default function ProfilePage(props) {
                     },
                     {
                       tabButton: "RA",
-                      tabIcon: Favorite,
+                      tabIcon: MenuBookIcon,
+                      tabContent: (
+                        <GridContainer justify="center">
+                          <GridItem xs={12} sm={12} md={4}>
+                            <img
+                              alt="..."
+                              src={work4}
+                              className={navImageClasses}
+                            />
+                            <img
+                              alt="..."
+                              src={studio3}
+                              className={navImageClasses}
+                            />
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={4}>
+                            <img
+                              alt="..."
+                              src={work2}
+                              className={navImageClasses}
+                            />
+                            <img
+                              alt="..."
+                              src={work1}
+                              className={navImageClasses}
+                            />
+                            <img
+                              alt="..."
+                              src={studio1}
+                              className={navImageClasses}
+                            />
+                          </GridItem>
+                        </GridContainer>
+                      ),
+                    },
+                    {
+                      tabButton: "Research",
+                      tabIcon: SchoolIcon,
                       tabContent: (
                         <GridContainer justify="center">
                           <GridItem xs={12} sm={12} md={4}>

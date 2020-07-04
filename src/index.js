@@ -13,6 +13,8 @@ import Research from "views/Research/Research.js";
 import ProfilePage from "views/ProfilePage/ProfilePage.js";
 import LoginPage from "views/LoginPage/LoginPage.js";
 import RegisterPage from "views/RegisterPage/Register.js";
+import ChangePW from "views/ChangePW/ChangePW.js";
+import ForgetPW from "views/ForgetPW/ForgetPW.js";
 
 var hist = createBrowserHistory();
 
@@ -25,6 +27,8 @@ ReactDOM.render(
       <Route path="/profile-page" component={ProfilePage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/register-page" component={RegisterPage} />
+      <Route path="/change-pw" component={ChangePW} />
+      <Route path="/forget-pw" component={ForgetPW} />
       <Route path="/" component={Components} />
     </Switch>
   </Router>,

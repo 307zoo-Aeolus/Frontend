@@ -3,8 +3,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import People from "@material-ui/icons/People";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -31,16 +29,16 @@ function jumpTo(e, href) {
 
 function handleSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById("name").value;
-  const password = document.getElementById("password").value;
+  const oldpsw = document.getElementById("oldpsw").value;
+  const newpsw = document.getElementById("newpsw").value;
   const values = {
-    username: name,
-    password: password,
+    oldpsw: oldpsw,
+    newpsw: newpsw,
   };
   console.log(values);
 }
 
-export default function LoginPage(props) {
+export default function ChangePW(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
@@ -74,28 +72,30 @@ export default function LoginPage(props) {
                   onSubmit={(e) => handleSubmit(e)}
                 >
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h4>Change Password</h4>
                   </CardHeader>
                   <CardBody>
                     <CustomInput
-                      labelText="Name"
-                      id="name"
+                      labelText="Old Password"
+                      id="oldpsw"
                       formControlProps={{
                         fullWidth: true,
                         required: true,
                       }}
                       inputProps={{
-                        type: "text",
+                        type: "password",
                         endAdornment: (
                           <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
+                            <Icon className={classes.inputIconsColor}>
+                              lock_outline
+                            </Icon>
                           </InputAdornment>
                         ),
                       }}
                     />
                     <CustomInput
-                      labelText="Password"
-                      id="password"
+                      labelText="New Password"
+                      id="newpsw"
                       formControlProps={{
                         fullWidth: true,
                         required: true,
@@ -115,26 +115,15 @@ export default function LoginPage(props) {
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button color="primary" fullWidth type="submit">
-                      Login
+                      Change
                     </Button>
                   </CardFooter>
                   <CardFooter
                     className={classes.cardFooter}
                     style={{ marginTop: "-15px" }}
                   >
-                    <Button
-                      simple
-                      style={{ color: "grey" }}
-                      href="register-page"
-                    >
-                      Go to register
-                    </Button>
-                    <Button
-                      simple
-                      style={{ color: "grey", marginLeft: "20px" }}
-                      href="forget-pw"
-                    >
-                      Forget password?
+                    <Button simple style={{ color: "grey" }} href="login-page">
+                      Go to Login
                     </Button>
                   </CardFooter>
                 </form>

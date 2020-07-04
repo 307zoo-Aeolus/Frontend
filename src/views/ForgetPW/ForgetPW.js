@@ -2,8 +2,6 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
 import People from "@material-ui/icons/People";
 // core components
 import Header from "components/Header/Header.js";
@@ -32,15 +30,13 @@ function jumpTo(e, href) {
 function handleSubmit(e) {
   e.preventDefault();
   const name = document.getElementById("name").value;
-  const password = document.getElementById("password").value;
   const values = {
     username: name,
-    password: password,
   };
   console.log(values);
 }
 
-export default function LoginPage(props) {
+export default function ForgetPW(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
@@ -74,11 +70,11 @@ export default function LoginPage(props) {
                   onSubmit={(e) => handleSubmit(e)}
                 >
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h4>Reset Password</h4>
                   </CardHeader>
                   <CardBody>
                     <CustomInput
-                      labelText="Name"
+                      labelText="Your name"
                       id="name"
                       formControlProps={{
                         fullWidth: true,
@@ -93,48 +89,18 @@ export default function LoginPage(props) {
                         ),
                       }}
                     />
-                    <CustomInput
-                      labelText="Password"
-                      id="password"
-                      formControlProps={{
-                        fullWidth: true,
-                        required: true,
-                      }}
-                      inputProps={{
-                        type: "password",
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        ),
-                        autoComplete: "off",
-                      }}
-                    />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button color="primary" fullWidth type="submit">
-                      Login
+                      Reset
                     </Button>
                   </CardFooter>
                   <CardFooter
                     className={classes.cardFooter}
                     style={{ marginTop: "-15px" }}
                   >
-                    <Button
-                      simple
-                      style={{ color: "grey" }}
-                      href="register-page"
-                    >
-                      Go to register
-                    </Button>
-                    <Button
-                      simple
-                      style={{ color: "grey", marginLeft: "20px" }}
-                      href="forget-pw"
-                    >
-                      Forget password?
+                    <Button simple style={{ color: "grey" }} href="login-page">
+                      Go to Login
                     </Button>
                   </CardFooter>
                 </form>

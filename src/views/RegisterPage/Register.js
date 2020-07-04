@@ -37,10 +37,11 @@ function handleSubmit(e) {
   const password1 = document.getElementById("password1").value;
   const password2 = document.getElementById("password2").value;
   const values = {
-    name: name,
+    username: name,
     email: email,
     password1: password1,
     password2: password2,
+    authority: "user",
   };
   console.log(values);
 }

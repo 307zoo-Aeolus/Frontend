@@ -3,6 +3,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
@@ -30,24 +33,55 @@ function jumpTo(e, href) {
   window.location.href = href;
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password1 = document.getElementById("password1").value;
-  const password2 = document.getElementById("password2").value;
-  const values = {
-    username: name,
-    email: email,
-    password1: password1,
-    password2: password2,
-    authority: "user",
-  };
-  console.log(values);
-}
-
 export default function RegisterPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const str1 = "Please login to your email account to complete your registration";
+  const [str2, setStr2] = React.useState("Failed to register");
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+  const handleClick1 = () => {
+    setOpen1(true);
+  };
+  const [open2, setOpen2] = React.useState(false);
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password1 = document.getElementById("password1").value;
+    const password2 = document.getElementById("password2").value;
+    const values = {
+      username: name,
+      email: email,
+      password1: password1,
+      password2: password2,
+      authority: "user",
+    };
+    fetch('http://127.0.0.1:8000/user/register/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => res.json())
+      .then(data => {
+        if (data && data.status && data.status === 'ok') {
+          handleClick1();
+          //window.location.href = '/login-page'
+        }
+        else {
+          setStr2(data.type);
+          handleClick2();
+        }
+      })
+  }
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
@@ -77,7 +111,7 @@ export default function RegisterPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form
                   className={classes.form}
-                  onSubmit={(e) => handleSubmit(e)}
+                  onSubmit={handleSubmit}
                 >
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h4>Register</h4>
@@ -172,6 +206,40 @@ export default function RegisterPage(props) {
             </GridItem>
           </GridContainer>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open1}
+          autoHideDuration={6000}
+          onClose={() => handleClose1()}
+          message={"Succeeded! " + str1}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose1()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open2}
+          autoHideDuration={6000}
+          onClose={() => handleClose2()}
+          message={"Failed to register. " + str2}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose2()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
         <Footer whiteFont />
       </div>
     </div>

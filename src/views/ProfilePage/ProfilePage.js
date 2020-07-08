@@ -12,6 +12,9 @@ import WorkIcon from "@material-ui/icons/Work";
 import ForumIcon from "@material-ui/icons/Forum";
 import SchoolIcon from "@material-ui/icons/School";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 // core components
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
@@ -43,6 +46,44 @@ function jumpTo(e, href) {
 
 export default function ProfilePage(props) {
   const classes = useStyles();
+  const str1 = "Successfully logout!";
+  const [str2, setStr2] = React.useState("");
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+  const handleClick1 = () => {
+    setOpen1(true);
+  };
+  const [open2, setOpen2] = React.useState(false);
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+  const logout = e => {
+    e.preventDefault();
+    fetch('http://localhost:8000/user/logout/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if (data && data.status && data.status === 'ok') {
+            handleClick1();
+            setTimeout("window.location.href = '/login-page'", 3000);
+          } else {
+            setStr2(data.type);
+            handleClick2();
+            setTimeout("window.location.href = '/login-page'", 3000);
+          }
+        });
+  }
   const { ...rest } = props;
   /*const imageClasses = classNames(
     classes.imgRaised,
@@ -77,7 +118,7 @@ export default function ProfilePage(props) {
                 </Tooltip>
                 <Tooltip title="Logout" aria-label="logout">
                   <Link to="login-page">
-                    <ExitToAppIcon
+                    <ExitToAppIcon onClick={e => logout(e)}
                       style={{ marginLeft: "10px", color: "white" }}
                     />
                   </Link>
@@ -246,6 +287,40 @@ export default function ProfilePage(props) {
           </div>
         </div>
       </div>
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open1}
+          autoHideDuration={6000}
+          onClose={() => handleClose1()}
+          message={str1}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose1()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open2}
+          autoHideDuration={6000}
+          onClose={() => handleClose2()}
+          message={"Failed to logout. " + str2}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose2()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       <Footer />
     </div>
   );

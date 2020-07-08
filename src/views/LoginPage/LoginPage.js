@@ -63,6 +63,7 @@ export default function LoginPage(props) {
     };
     fetch('http://127.0.0.1:8000/user/login/', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },

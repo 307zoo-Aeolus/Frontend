@@ -59,7 +59,6 @@ export default function ForgetPW(props) {
     };
     fetch('http://localhost:8000/user/reset/', {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },

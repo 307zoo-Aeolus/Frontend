@@ -3,6 +3,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -27,22 +30,55 @@ function jumpTo(e, href) {
   window.location.href = href;
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const oldpsw = document.getElementById("oldpsw").value;
-  const newpsw = document.getElementById("newpsw").value;
-  const values = {
-    oldpsw: oldpsw,
-    newpsw: newpsw,
-  };
-  console.log(values);
-}
-
 export default function ChangePW(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
+  const str1 = "Succeeded! Please login again";
+  const [str2, setStr2] = React.useState("");
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+  const handleClick1 = () => {
+    setOpen1(true);
+  };
+  const [open2, setOpen2] = React.useState(false);
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const oldpsw = document.getElementById("oldpsw").value;
+    const newpsw = document.getElementById("newpsw").value;
+    const values = {
+      oldpsw: oldpsw,
+      newpsw: newpsw,
+    };
+    fetch('http://localhost:8000/user/change/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.status && data.status === 'ok') {
+          handleClick1();
+          setTimeout("window.location.href = '/login-page'", 3000);
+        }
+        else {
+          setStr2(data.type);
+          handleClick2();
+        }
+      })
+  }
   const classes = useStyles();
   const { ...rest } = props;
   return (
@@ -131,6 +167,40 @@ export default function ChangePW(props) {
             </GridItem>
           </GridContainer>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open1}
+          autoHideDuration={6000}
+          onClose={() => handleClose1()}
+          message={str1}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose1()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open2}
+          autoHideDuration={6000}
+          onClose={() => handleClose2()}
+          message={"Failed to change password. " + str2}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose2()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
         <Footer whiteFont />
       </div>
     </div>

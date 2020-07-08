@@ -38,7 +38,7 @@ export default function LoginPage(props) {
     setCardAnimation("");
   }, 700);
   const str1 = "Successfully login!";
-  const [str2, setStr2] = React.useState("Failed to login");
+  const [str2, setStr2] = React.useState("");
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => {
     setOpen1(false);
@@ -61,7 +61,6 @@ export default function LoginPage(props) {
       username: name,
       password: password,
     };
-    console.log(values)
     fetch('http://127.0.0.1:8000/user/login/', {
       method: 'POST',
       headers: {
@@ -70,7 +69,6 @@ export default function LoginPage(props) {
       body: JSON.stringify(values)
     }).then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data && data.status && data.status === 'ok') {
           handleClick1();
           setTimeout("window.location.href = '/'", 3000);

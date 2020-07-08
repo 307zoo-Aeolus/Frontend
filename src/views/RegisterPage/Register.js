@@ -74,7 +74,7 @@ export default function RegisterPage(props) {
       .then(data => {
         if (data && data.status && data.status === 'ok') {
           handleClick1();
-          //window.location.href = '/login-page'
+          setTimeout("window.location.href = '/login-page'", 3000);
         }
         else {
           setStr2(data.type);

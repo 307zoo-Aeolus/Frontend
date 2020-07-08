@@ -3,6 +3,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 // @material-ui/icons
 import People from "@material-ui/icons/People";
 // core components
@@ -29,22 +32,55 @@ function jumpTo(e, href) {
   window.location.href = href;
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const password = document.getElementById("password").value;
-  const values = {
-    username: name,
-    password: password,
-  };
-  console.log(values);
-}
-
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
+  const str1 = "Successfully login!";
+  const [str2, setStr2] = React.useState("Failed to login");
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+  const handleClick1 = () => {
+    setOpen1(true);
+  };
+  const [open2, setOpen2] = React.useState(false);
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+  const handleClick2 = () => {
+    setOpen2(true);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const password = document.getElementById("password").value;
+    const values = {
+      username: name,
+      password: password,
+    };
+    console.log(values)
+    fetch('http://127.0.0.1:8000/user/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data && data.status && data.status === 'ok') {
+          handleClick1();
+          setTimeout("window.location.href = '/'", 3000);
+        }
+        else {
+          setStr2(data.type);
+          handleClick2();
+        }
+      })
+  }
   const classes = useStyles();
   const { ...rest } = props;
   return (
@@ -142,6 +178,40 @@ export default function LoginPage(props) {
             </GridItem>
           </GridContainer>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open1}
+          autoHideDuration={6000}
+          onClose={() => handleClose1()}
+          message={str1}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose1()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open2}
+          autoHideDuration={6000}
+          onClose={() => handleClose2()}
+          message={"Failed to login. " + str2}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose2()}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
         <Footer whiteFont />
       </div>
     </div>

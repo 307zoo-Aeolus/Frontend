@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Card from '@material-ui/core/Card';
-
+import papa from 'papaparse';
+import Pagination from '@material-ui/lab/Pagination';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 // @material-ui/icons
 
 // core components
@@ -12,217 +17,89 @@ import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
 
 // Sections for this page
-import ProductSection from "./Sections/ProductSection.js";
-import TeamSection from "./Sections/TeamSection.js";
-import WorkSection from "./Sections/WorkSection.js";
-
-import clsx from 'clsx';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import RaSection from "./Sections/RaSection.js";
+import ForumSection from "./Sections/ForumSection.js";
 
 const dashboardRoutes = [];
 
 const useStyles = makeStyles(styles);
 
-const cardStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-const gridStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-export default function LandingPage(props) {
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+export default function Academic(props) {
   const classes = useStyles();
+  const [forums, setForums] = React.useState([]);
+  const [ras, setRas] = React.useState([]);
+  const [value, setValue] = React.useState(0);
+  const handleChange = (e, newValue) => {
+    e.stopPropagation();
+    setValue(newValue);
+  };
+  const forumsRender = () => (
+    <GridContainer justify="center">
+      {forums.map(forum => (
+        <ForumSection Title={forum.Title} Location={forum.Location} Venue={forum.Venue}
+        Begin={forum.Begin} End={forum.End} Synopsis={forum.Synopsis} Link={forum.Link} />
+      ))}
+    </GridContainer>
+  )
+  const rasRender = () => (
+    <GridContainer justify="center">
+      {ras.map(ra => (
+        <RaSection Title={ra.Title} Location={ra.Location} Company={ra.Company}
+        Synopsis={ra.Synopsis} Link={ra.Link}/>
+      ))}
+    </GridContainer>
+  )
+  useEffect(() => {
+    const forums = require('../../assets/files/conference.csv')
+    const ras = require('../../assets/files/ra.csv')
+    papa.parse(forums, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        setForums(results.data)
+      }
+    })
+    papa.parse(ras, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        setRas(results.data)
+      }
+    })
+  }, [])
   const { ...rest } = props;
-
-  const cardcls = cardStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  //grid
-  const gridcls = gridStyles();
-
-  const fakecard = ()=> {
-    return (
-      <Card className={cardcls.root}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={cardcls.avatar}>
-              R
-            </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
-        />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-          <IconButton
-            className={clsx(cardcls.expand, {
-              [cardcls.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Method:</Typography>
-            <Typography paragraph>
-              Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-              minutes.
-            </Typography>
-          </CardContent>
-        </Collapse>
-      </Card>
-    )
-  }
-
-  const cardcontent = ()=>{
-    return (
-      <div>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={cardcls.avatar}>
-                R
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              This impressive paella is a perfect party dish and a fun meal to cook together with your
-              guests. Add 1 cup of frozen peas along with the mussels, if you like.
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-            <IconButton
-              className={clsx(cardcls.expand, {
-                [cardcls.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-              <Typography paragraph>
-                Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                minutes.
-              </Typography>
-            </CardContent>
-          </Collapse>
-      </div>
-    )
-  }
-
-  const arrangement = ()=>{
-    return(
-      <div className={gridcls.root}>
-        <Grid container spacing={4}>
-          <Grid item xs={4}>
-            <Paper className={gridcls.paper}>
-              {cardcontent()}
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={gridcls.paper}>
-              {cardcontent()}
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper className={gridcls.paper}>
-              {cardcontent()}
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>)
-  };
-
   return (
     <div>
       <Header
@@ -236,57 +113,44 @@ export default function LandingPage(props) {
           color: "white",
         }}
         {...rest}
-        marginTop="10px"
       />
-      <Parallax filter image={require("assets/img/about-bg.jpg")}
-        marginTop="10px">
+      <Parallax filter image={require("assets/img/about-bg.jpg")}>
         <div className={classes.container}>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={3}>
+            <GridItem xs={12} sm={12} md={6}>
               <h1 className={classes.title}>Academic</h1>
               <h4>
-              Get Info on Updated Online Forums & Labs’ Positions.
+                Get Info on Updated Online Forums & Labs’ Positions
               </h4>
-              <br />
-                 
             </GridItem>
           </GridContainer>
         </div>
       </Parallax>
-
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          {arrangement()}
+          <div className={classes.section}>
+            <br/>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Forums"/>
+              <Tab label="RAs"/>
+            </Tabs>
+            <TabPanel value={value} index={0}>
+              {forumsRender()}
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              {rasRender()}
+            </TabPanel>
+          </div>
         </div>
+        <p style={{ height: '20px' }} />
       </div>
-
-      
       <Footer />
-    </div>
-  );
+    </div >
+  )
 }
-
-/**
- * 
-                color="danger"
-                size="lg"
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim"
-                target="_blank"
-                rel="noopener noreferrer"
- */
-
-/**
- * 
-                <i className="fas fa-play" />
-                Watch video
- */
-
-/**
- *       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
-          <ProductSection />
-          <TeamSection />
-          <WorkSection />
-        </div>
-      </div>
- */

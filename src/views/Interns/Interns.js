@@ -24,7 +24,7 @@ const dashboardRoutes = [];
 
 const useStyles = makeStyles(styles);
 
-export default function LandingPage(props) {
+export default function Interns(props) {
   const classes = useStyles();
   const [interns, setInterns] = React.useState([]);
   const [current, setCurrent] = React.useState([]);

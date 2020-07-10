@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-
+import papa from 'papaparse';
+import Pagination from '@material-ui/lab/Pagination';
 // @material-ui/icons
 
 // core components
@@ -11,16 +12,13 @@ import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
 
 // Sections for this page
-import ProductSection from "./Sections/ProductSection.js";
-import TeamSection from "./Sections/TeamSection.js";
-import WorkSection from "./Sections/WorkSection.js";
+import InternSection from "./Sections/InternSection.js";
 
 const dashboardRoutes = [];
 
@@ -28,6 +26,26 @@ const useStyles = makeStyles(styles);
 
 export default function LandingPage(props) {
   const classes = useStyles();
+  const [interns, setInterns] = React.useState([]);
+  const [current, setCurrent] = React.useState([]);
+  useEffect(() => {
+    const parFile = require('../../assets/files/internship.csv')
+    papa.parse(parFile, {
+      download: true,
+      header: true,
+      complete: function (results) {
+        setInterns(results.data)
+        setCurrent(results.data.slice(0, 9))
+      }
+    })
+  }, [])
+  const fetchCurr = (e, page) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (interns) {
+      setCurrent(interns.slice((page - 1) * 9, page * 9))
+    }
+  }
   const { ...rest } = props;
   return (
     <div>
@@ -47,36 +65,35 @@ export default function LandingPage(props) {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>Your Story Starts With Us.</h1>
+              <h1 className={classes.title}>Internships</h1>
               <h4>
-                Every landing page needs a small description after the big bold
-                title, that{"'"}s why we added this text here. Add here all the
-                information that can make you or your product create the first
-                impression.
+                Find Your Satisfied Internships during COVID-19
               </h4>
-              <br />
-              <Button
-                color="danger"
-                size="lg"
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className="fas fa-play" />
-                Watch video
-              </Button>
             </GridItem>
           </GridContainer>
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <ProductSection />
-          <TeamSection />
-          <WorkSection />
+          <div className={classes.section}>
+            <GridContainer justify="center">
+              {current.map(intern => (
+                <InternSection city={intern.city} company_name={intern.company_name} duration={intern.duration}
+                  frequency={intern.frequency} job={intern.job} job_link={intern.job_link} salary={intern.salary} />
+              ))}
+            </GridContainer>
+          </div>
         </div>
+        <div className={classes.container} style={{ marginTop: '20px' }}>
+          <div className={classes.section}>
+            <GridContainer justify="center" >
+              <Pagination count={86} color="primary" onChange={(e, page) => fetchCurr(e, page)} />
+            </GridContainer>
+          </div>
+        </div>
+        <p style={{ height: '20px' }}/>
       </div>
       <Footer />
-    </div>
-  );
+    </div >
+  )
 }

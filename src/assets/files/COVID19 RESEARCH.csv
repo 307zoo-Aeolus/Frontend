@@ -1,0 +1,33 @@
+﻿Name,URL,ML Approaches/Applications
+nCov2019 location dataset,https://github.com/beoutbreakprepared/nCoV2019,Epidemiology
+COVID-19 Open Research Dataset Challenge (Kaggle),https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge,NLP/IR for finding relevant passages
+COVID-19 Open Research Dataset (CORD-19),https://pages.semanticscholar.org/coronavirus-research,Research articles
+European Centre for Disease Prevention and Control Daily Global Statistics,https://ourworldindata.org/coronavirus-source-data ,Dashboard. Daily situation report summaries and data tables
+COVID-19 image data collection,https://github.com/ieee8023/covid-chestxray-dataset,Diagnosis from medical images
+CHIME: COVID-19 Hospital Impact Model for Epidemics,https://github.com/CodeForPhilly/chime,Hospital case management + prediction
+Genomic epidemiology of hCov-19,https://www.gisaid.org/epiflu-applications/next-hcov-19-app/,Genomics
+COVID-19: The First Public Coronavirus Twitter Dataset,https://github.com/echen102/COVID-19-TweetIDs,NLP + IR for social media analysis
+Protein Data Bank: Covid-19 Coronavirus REsources,http://www.rcsb.org/news?year=2020&article=5e3c4bcba5007a04a313edcc,Protein modeling
+Novel Coronavirus 2019 Dataset,https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset,Epidemiology
+LitCOVID,https://www.ncbi.nlm.nih.gov/research/coronavirus/,NLP/IRC
+WHO Database of publications on coronavirus disease (COVID-19),https://www.who.int/emergencies/diseases/novel-coronavirus-2019/global-research-on-novel-coronavirus-2019-ncov,NLP/IR
+"Dimensions COVID-19 publications, data sets, clinical trials",https://covid-19.dimensions.ai,Research + validation
+Italian Covid-19 Database,https://www.sirm.org/category/senza-categoria/covid-19/ ,Various
+Realtime tracking of genetic evolution (tree) of covid-19 across the world ,https://nextstrain.org ,Modeling + Epidemiology
+COVID-19 Korea Dataset & Comprehensive Medical Dataset & visualizer,https://github.com/ThisIsIsaac/COVID-19_Korea_Dataset,Epidemiology
+Sequences of outbreak isolates and records relating to coronavirus biology.,https://www.ebi.ac.uk/ena/pathogens/covid-19,Genomics 
+COVID-19 BSTI Imaging Database,https://www.bsti.org.uk/training-and-education/covid-19-bsti-imaging-database/,Diagnosis from medical images
+Covid-19 Twitter chatter dataset for scientific use,https://github.com/thepanacealab/covid19_twitter ,Twitter NLP source data and preprocessing data
+Dataset of Infections in Germany,https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0/data ,Includes age and sex information.
+API for Coronavirus Data,https://covid19api.com/,Dataset
+COVID-19 Literature Clustering,https://www.kaggle.com/maksimeren/covid-19-literature-clustering ,Jupyter notebook
+Johns Hopkins CSSE Data,https://github.com/CSSEGISandData/COVID-19 ,Epidemiological data
+Diagnosis of COVID-19 and its clinical spectrum (Brazil),https://www.kaggle.com/einsteindata4u/covid19 ,Epidemiological data
+Detailed Covid patient data aggregated from 130+ research papers ,http://www.covidanalytics.io/,"Predict patient outcome and ICU length of stay based on sex, age, gender, comorbidities, treatments, etc"
+Hospital Beds in the USA by city,HRR Scorecard: 20% / 40% / 60%,Hospital Management
+Lean European Open Survey on SARS-CoV-2 Infected Patients,https://leoss.net/data ,Epidemiological data
+Covid-19 severity prediction at the county-level + hospital-level, https://github.com/Yu-Group/covid-19-geographic-risk-prediction  ,Epidemiological data
+COVID-19 risk calculator data,https://www.covid19survivalcalculator.com/download ,Predicting mortality/severity of COVID-19
+"750,000 records including medical, political behavioural and economic.",,
+UN COVID-19 Data Hub,https://covid-19-data.unstatshub.org/,"Various (COVID-19 data, healthcare resources, economic, and population data)"
+CoronaVirusFacts Alliance database,https://www.poynter.org/ifcn-covid-19-misinformation/,Misinformation detection
